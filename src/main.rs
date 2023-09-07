@@ -10,19 +10,14 @@ fn main() -> Result<(), Error> {
     let mut programs = HashMap::<String, String>::new();
     for file in fs::read_dir("/usr/share/applications/")? {
         let path = file?.path();
-
         let extension = path
             .extension()
             .ok_or_else(|| anyhow!("Extension could not be found"))?;
-
         if extension != "desktop" {
             continue;
         }
-
         let file = File::open(path)?;
-
         let reader = BufReader::new(file);
-
         let mut name = String::new();
         let mut exec = String::new();
         for line in reader.lines() {
